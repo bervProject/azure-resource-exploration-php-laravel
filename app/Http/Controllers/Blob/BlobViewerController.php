@@ -26,7 +26,7 @@ class BlobViewerController extends Controller
     protected function list(Request $request)
     {
         //$connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
-        //$containerName = 'dicoding-container-blob';
+        //$containerName = getenv('AZURE_CONTAINER_BLOB');
         // Create blob client.
         //$blobClient = BlobRestProxy::createBlobService($connectionString);
         //$result = $blobClient->listBlobs($containerName);

@@ -6,6 +6,7 @@ Azure Exploration Laravel
 
 ```
 AZURE_STORAGE_CONNECTION_STRING=...
+AZURE_CONTAINER_BLOB=...
 ```
 
 ## LICENSE
