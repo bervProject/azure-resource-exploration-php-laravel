@@ -1,111 +1,69 @@
-#!/bin/bash
+@if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
 
-# ----------------------
-# KUDU Deployment Script
-# Version: 0.2.2
-# ----------------------
+:: ----------------------
+:: KUDU Deployment Script
+:: Version: 1.0.9
+:: ----------------------
 
-# Helpers
-# -------
+:: Prerequisites
+:: -------------
 
-exitWithMessageOnError () {
-  if [ ! $? -eq 0 ]; then
-    echo "An error has occurred during web site deployment."
-    echo $1
-    exit 1
-  fi
-}
+:: Verify node.js installed
+where node 2>nul >nul
+IF %ERRORLEVEL% NEQ 0 (
+  echo Missing node.js executable, please install node.js, if already installed make sure it can be reached from current environment.
+  goto error
+)
 
-# Prerequisites
-# -------------
+:: Setup
+:: -----
 
-# Verify node.js installed
-hash node 2>/dev/null
-exitWithMessageOnError "Missing node.js executable, please install node.js, if already installed make sure it can be reached from current environment."
+setlocal enabledelayedexpansion
 
-# Setup
-# -----
+SET ARTIFACTS=%~dp0%..\artifacts
 
-SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
-SCRIPT_DIR="${SCRIPT_DIR%/*}"
-ARTIFACTS=$SCRIPT_DIR/../artifacts
-KUDU_SYNC_CMD=${KUDU_SYNC_CMD//\"}
+IF NOT DEFINED DEPLOYMENT_SOURCE (
+  SET DEPLOYMENT_SOURCE=%~dp0%.
+)
 
-if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
-  DEPLOYMENT_SOURCE=$SCRIPT_DIR
-fi
+IF NOT DEFINED DEPLOYMENT_TARGET (
+  SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
+)
 
-if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
-  NEXT_MANIFEST_PATH=$ARTIFACTS/manifest
+IF NOT DEFINED NEXT_MANIFEST_PATH (
+  SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
 
-  if [[ ! -n "$PREVIOUS_MANIFEST_PATH" ]]; then
-    PREVIOUS_MANIFEST_PATH=$NEXT_MANIFEST_PATH
-  fi
-fi
+  IF NOT DEFINED PREVIOUS_MANIFEST_PATH (
+    SET PREVIOUS_MANIFEST_PATH=%ARTIFACTS%\manifest
+  )
+)
 
-if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
-  DEPLOYMENT_TARGET=$ARTIFACTS/wwwroot
-else
-  KUDU_SERVICE=true
-fi
-
-if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
-  # Install kudu sync
+IF NOT DEFINED KUDU_SYNC_CMD (
+  :: Install kudu sync
   echo Installing Kudu Sync
-  npm install kudusync -g --silent
-  exitWithMessageOnError "npm failed"
+  call npm install kudusync -g --silent
+  IF !ERRORLEVEL! NEQ 0 goto error
 
-  if [[ ! -n "$KUDU_SERVICE" ]]; then
-    # In case we are running locally this is the correct location of kuduSync
-    KUDU_SYNC_CMD=kuduSync
-  else
-    # In case we are running on kudu service this is the correct location of kuduSync
-    KUDU_SYNC_CMD=$APPDATA/npm/node_modules/kuduSync/bin/kuduSync
-  fi
-fi
+  :: Locally just running "kuduSync" would also work
+  SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
+)
 
-# Node Helpers
-# ------------
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: Deployment
+:: ----------
 
-selectNodeVersion () {
-  if [[ -n "$KUDU_SELECT_NODE_VERSION_CMD" ]]; then
-    SELECT_NODE_VERSION="$KUDU_SELECT_NODE_VERSION_CMD \"$DEPLOYMENT_SOURCE\" \"$DEPLOYMENT_TARGET\" \"$DEPLOYMENT_TEMP\""
-    eval $SELECT_NODE_VERSION
-    exitWithMessageOnError "select node version failed"
+echo Handling Basic Web Site deployment.
 
-    if [[ -e "$DEPLOYMENT_TEMP/__nodeVersion.tmp" ]]; then
-      NODE_EXE=`cat "$DEPLOYMENT_TEMP/__nodeVersion.tmp"`
-      exitWithMessageOnError "getting node version failed"
-    fi
+:: 1. KuduSync
+IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
+  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  IF !ERRORLEVEL! NEQ 0 goto error
+)
 
-    if [[ -e "$DEPLOYMENT_TEMP/.tmp" ]]; then
-      NPM_JS_PATH=`cat "$DEPLOYMENT_TEMP/__npmVersion.tmp"`
-      exitWithMessageOnError "getting npm version failed"
-    fi
+:: 2. Install composer
+IF EXIST "%DEPLOYMENT_TARGET%\composer.json" (
+  pushd "%DEPLOYMENT_TARGET%"
 
-    if [[ ! -n "$NODE_EXE" ]]; then
-      NODE_EXE=node
-    fi
-
-    NPM_CMD="\"$NODE_EXE\" \"$NPM_JS_PATH\""
-  else
-    NPM_CMD=npm
-    NODE_EXE=node
-  fi
-}
-
-##################################################################################################################################
-# Deployment
-# ----------
-
-# 1. KuduSync
-if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
-  "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
-  exitWithMessageOnError "Kudu Sync failed"
-fi
-
-# 2. Install Composer modules
-if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   IF NOT EXIST "%DEPLOYMENT_TARGET%\composer.phar" (
     echo Download composer installer
     call :ExecuteCmd php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -129,34 +87,42 @@ if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   call :ExecuteCmd php composer.phar install --no-dev
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
-fi
+)
 
-# 3. Install NPM packages
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  echo Running npm install
-  cd "$DEPLOYMENT_TARGET"
-  eval npm install --production
-  exitWithMessageOnError "npm failed"
-  cd - > /dev/null
-fi
+:: 3. Laravel update
+IF EXIST "%DEPLOYMENT_TARGET%\.env.azure" (
+  pushd "%DEPLOYMENT_TARGET%"
+  echo Copy .env file
+  call :ExecuteCmd copy /Y ".env.azure" ".env"
+  echo Migrate database
+  call :ExecuteCmd php artisan migrate --force
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 
-# 4. Install Bower modules
-if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
-  echo Running bower install
-  cd "$DEPLOYMENT_TARGET"
-  eval ./node_modules/.bin/bower install
-  exitWithMessageOnError "bower failed"
-  cd - > /dev/null
-fi
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+goto end
 
-##################################################################################################################################
+:: Execute command routine that will echo out when error
+:ExecuteCmd
+setlocal
+set _CMD_=%*
+call %_CMD_%
+if "%ERRORLEVEL%" NEQ "0" echo Failed exitCode=%ERRORLEVEL%, command=%_CMD_%
+exit /b %ERRORLEVEL%
 
-# Post deployment stub
-if [[ -n "$POST_DEPLOYMENT_ACTION" ]]; then
-  POST_DEPLOYMENT_ACTION=${POST_DEPLOYMENT_ACTION//\"}
-  cd "${POST_DEPLOYMENT_ACTION_DIR%\\*}"
-  "$POST_DEPLOYMENT_ACTION"
-  exitWithMessageOnError "post deployment action failed"
-fi
+:error
+endlocal
+echo An error has occurred during web site deployment.
+call :exitSetErrorLevel
+call :exitFromFunction 2>nul
 
-echo "Finished successfully."
+:exitSetErrorLevel
+exit /b 1
+
+:exitFromFunction
+()
+
+:end
+endlocal
+echo Finished successfully.
