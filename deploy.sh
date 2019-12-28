@@ -104,11 +104,11 @@ if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
   exitWithMessageOnError "Kudu Sync failed"
 fi
 
-# 2. Install Composer modules 
+# 2. Install Composer modules
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   echo Running composer install
   cd "$DEPLOYMENT_TARGET"
-  eval php composer.phar install
+  eval composer install
   exitWithMessageOnError "composer failed"
   cd - > /dev/null
 fi
