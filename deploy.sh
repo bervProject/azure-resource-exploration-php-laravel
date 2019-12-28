@@ -106,11 +106,29 @@ fi
 
 # 2. Install Composer modules
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
-  echo Running composer install
-  cd "$DEPLOYMENT_TARGET"
-  eval composer install
-  exitWithMessageOnError "composer failed"
-  cd - > /dev/null
+  IF NOT EXIST "%DEPLOYMENT_TARGET%\composer.phar" (
+    echo Download composer installer
+    call :ExecuteCmd php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    IF !ERRORLEVEL! NEQ 0 goto error
+    echo Install Composer
+    call :ExecuteCmd php composer-setup.php
+    IF !ERRORLEVEL! NEQ 0 goto error
+    echo Deleting installer
+    call :ExecuteCmd php -r "unlink('composer-setup.php');"
+    IF !ERRORLEVEL! NEQ 0 goto error
+  )
+
+  echo Composer self update
+  call :ExecuteCmd php composer.phar self-update
+  IF !ERRORLEVEL! NEQ 0 goto error
+  echo Install Composer plugin
+  call :ExecuteCmd php composer.phar global require "hirak/prestissimo"
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  echo Composer install
+  call :ExecuteCmd php composer.phar install --no-dev
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
 fi
 
 # 3. Install NPM packages
