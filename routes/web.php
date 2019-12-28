@@ -12,8 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('blob');
 });
 
-Route::get('/blob', 'Blob\BlobViewerController@list');
+Route::get('/home', 'Blob\BlobViewerController@home');
+Route::get('/blob/list', 'Blob\BlobViewerController@list');
 Route::post('/blob/upload', 'Blob\BlobViewerController@upload');
+Route::post('/cognitive/upload', 'Blob\BlobViewerController@uploadCognitive');
