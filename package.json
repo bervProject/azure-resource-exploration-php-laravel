@@ -20,7 +20,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
-        "buefy": "^0.8.8",
+        "buefy": "^0.8.9",
         "moment": "^2.24.0",
         "vee-validate": "^3.2.1",
         "vue": "^2.6.11",
