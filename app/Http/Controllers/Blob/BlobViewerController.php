@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Blob;
 
 use App\Http\Controllers\Controller;
@@ -23,8 +24,8 @@ class BlobViewerController extends Controller
     /**
      * View list of blobs.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function home(Request $request)
     {
@@ -34,8 +35,8 @@ class BlobViewerController extends Controller
     /**
      * View list of blobs.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function list(Request $request)
     {
@@ -45,8 +46,7 @@ class BlobViewerController extends Controller
         $blobClient = BlobRestProxy::createBlobService($connectionString);
         $result = $blobClient->listBlobs($containerName);
         $output = array();
-        foreach ($result->getBlobs() as $blob)
-        {
+        foreach ($result->getBlobs() as $blob) {
             array_push($output, [
                 'name' => $blob->getName(),
                 'url' => $blob->getUrl()
@@ -58,104 +58,74 @@ class BlobViewerController extends Controller
     /**
      * Upload blobs.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     protected function upload(Request $request)
     {
-        if ($request->hasFile('blobfile') && $request->file('blobfile')->isValid()) {
-            //
-            $blobfile = $request->blobfile;
-            $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
-            $containerName = getenv('AZURE_CONTAINER_BLOB');
-            // Create blob client.
-            $dateNow = date("Y-m-d-H-i-s");
-            $blobClient = BlobRestProxy::createBlobService($connectionString);
-            $blobClient->createBlockBlob($containerName, 'blob/'.$dateNow."-".$blobfile->getClientOriginalName(), file_get_contents($blobfile->getRealPath()));
-            return redirect('/blob/list');
-        }
-        return view('welcome');
+        $request->validate([
+            'blob_file' => 'required|file'
+        ]);
+        //
+        $blobfile = $request->blob_file;
+        $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
+        $containerName = getenv('AZURE_CONTAINER_BLOB');
+        // Create blob client.
+        $dateNow = date("Y-m-d-H-i-s");
+        $originalName = $blobfile->getClientOriginalName();
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+        $blobClient->createBlockBlob($containerName, "blob/$dateNow-$originalName", file_get_contents($blobfile->getRealPath()));
+        return redirect('/blob/list');
     }
 
     /**
-     * Upload blobs.
+     * Upload picture to cognitive.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function uploadCognitive(Request $request)
     {
-        if ($request->hasFile('blobfile') && $request->file('blobfile')->isValid()) {
-            //
-            $blobfile = $request->blobfile;
-            $extension = $blobfile->getClientOriginalExtension();
-            if ($extension != 'png' && $extension != 'jpg' && $extension != 'jpeg')
-            {
-                return view('welcome');
-            }
-            $cognitivekey = getenv('AZURE_COGNITIVE_KEY');
-            $cognitiveEndpoint = getenv('AZURE_COGNITIVE_ENDPOINT');
-            // Create blob client.
-            $client = new Client(['base_uri' => $cognitiveEndpoint]);
-            $headers = [
-                'Ocp-Apim-Subscription-Key' => $cognitivekey,
-                'Content-Type' => 'application/octet-stream'
-            ];
-            $body = file_get_contents($blobfile->getRealPath());
-            $req = new RequestClient('POST', 'vision/v2.0/analyze?visualFeatures=Description&language=en', $headers, $body);
-            $response = $client->send($req);
-            if ($response->getStatusCode() != 200)
-            {
-                return view('welcome');
-            }
-            $bodyResponse = json_decode($response->getBody());
-            $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
-            $containerName = getenv('AZURE_CONTAINER_BLOB');
-            $dateNow = date("Y-m-d-H-i-s");
-            $capturedCaptions = $bodyResponse->description->captions[0]->text;
-            $metadata = [
-                'captions' => $capturedCaptions
-            ];
-            $options = new CreateBlockBlobOptions();
-            $options->setMetadata($metadata);
-            // Create blob client.
-            $blobClient = BlobRestProxy::createBlobService($connectionString);
-            $blobClient->createBlockBlob($containerName, 'cognitive/'.$dateNow."-".$blobfile->getClientOriginalName(), $body, $options);
-            $output = [
-                'file' => "data:image/$extension;base64,".base64_encode($body),
-                'captions' => $capturedCaptions
-            ];
-            return view('cognitive-result', $output);
-            //return redirect('/blob/list');
+        $request->validate([
+            'cognitive_file' => 'required|file|image|mimes:jpeg,bmp,png'
+        ]);
+        //
+        $blobfile = $request->cognitive_file;
+        $extension = $blobfile->getClientOriginalExtension();
+        $cognitivekey = getenv('AZURE_COGNITIVE_KEY');
+        $cognitiveEndpoint = getenv('AZURE_COGNITIVE_ENDPOINT');
+        // Create blob client.
+        $client = new Client(['base_uri' => $cognitiveEndpoint]);
+        $headers = [
+            'Ocp-Apim-Subscription-Key' => $cognitivekey,
+            'Content-Type' => 'application/octet-stream'
+        ];
+        $body = file_get_contents($blobfile->getRealPath());
+        $req = new RequestClient('POST', 'vision/v2.0/analyze?visualFeatures=Description&language=en', $headers, $body);
+        $response = $client->send($req);
+        if ($response->getStatusCode() != 200) {
+            return view('blob');
         }
-        return view('welcome');
-    }
-
-    /**
-     * Upload blobs.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function cognitiveView(Request $request)
-    {
-        if ($request->hasFile('blobfile') && $request->file('blobfile')->isValid()) {
-            //
-            $blobfile = $request->blobfile;
-            $extension = $blobfile->getClientOriginalExtension();
-            if ($extension != 'png' && $extension != 'jpg' && $extension != 'jpeg')
-            {
-                return view('welcome');
-            }
-            $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
-            $containerName = 'dicoding-container-blob';
-            // Create blob client.
-            $dateNow = date("Y-m-d-H-i-s");
-            $blobClient = BlobRestProxy::createBlobService($connectionString);
-            $blobClient->createBlockBlob($containerName, $dateNow."-".$blobfile->getClientOriginalName(), file_get_contents($blobfile->getRealPath()));
-            return redirect('/blob/list');
-        }
-        return view('welcome');
+        $bodyResponse = json_decode($response->getBody());
+        $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
+        $containerName = getenv('AZURE_CONTAINER_BLOB');
+        $dateNow = date("Y-m-d-H-i-s");
+        $originalName = $blobfile->getClientOriginalName();
+        $capturedCaptions = $bodyResponse->description->captions[0]->text;
+        $metadata = [
+            'captions' => $capturedCaptions
+        ];
+        $options = new CreateBlockBlobOptions();
+        $options->setMetadata($metadata);
+        // Create blob client.
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+        $blobClient->createBlockBlob($containerName, "cognitive/$dateNow-$originalName", $body, $options);
+        $output = [
+            'file' => "data:image/$extension;base64," . base64_encode($body),
+            'captions' => $capturedCaptions
+        ];
+        return view('cognitive-result', $output);
     }
 }
 
