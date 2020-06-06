@@ -20,7 +20,7 @@
         "popper.js": "^1.12",
         "resolve-url-loader": "2.3.1",
         "sass": "^1.26.8",
-        "sass-loader": "7.*",
+        "sass-loader": "8.*",
         "vee-validate": "^3.3.2",
         "vue": "^2.6.11",
         "vue-router": "^3.3.2",
