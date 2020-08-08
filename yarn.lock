@@ -6795,10 +6795,10 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vee-validate@^3.3.7:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.3.7.tgz#e9c3230cd17caa4a679f56ca8dd6acb1fa46f977"
-  integrity sha512-s0CfIO8U+YSAzn7q+WnNtPignsndWKQlrbp8qbJ/zCw6QMO/OKDxhFXYRdWeNWRbRktVGCkiIaYktQiY/YL3TQ==
+vee-validate@^3.3.8:
+  version "3.3.8"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.3.8.tgz#5aea8a7f7b775c7372a7ff34bcdf835844049d7a"
+  integrity sha512-1LUGmtwqnu6PvKFq5Ia07GdvWD8uvA6mpxrqHLcHnWp0hkBS05oGsI1GP860gzlT6lSEmDsPN6GiPIoqOkuVNg==
 
 vendors@^1.0.0:
   version "1.0.4"
