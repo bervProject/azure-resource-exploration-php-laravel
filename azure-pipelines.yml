@@ -31,6 +31,9 @@ steps:
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
 
-- script: ./phpunit
+- script: vendor/bin/phpunit --coverage-clover coverage.xml
   displayName: 'Run tests with phpunit'
+
+- script: bash <(curl -s https://codecov.io/bash)
+  displayName: 'Upload Coverage'
 
