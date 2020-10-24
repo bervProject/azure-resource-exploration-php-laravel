@@ -22,7 +22,7 @@
         "resolve-url-loader": "3.1.1",
         "sass": "^1.27.0",
         "sass-loader": "^10.0.4",
-        "vee-validate": "^3.4.2",
+        "vee-validate": "^3.4.3",
         "vue": "^2.6.12",
         "vue-router": "^3.4.7",
         "vue-template-compiler": "^2.6.12",
