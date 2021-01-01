@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
-        "axios": "^0.21.0",
+        "axios": "^0.21.1",
         "buefy": "^0.9.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.5.1",
