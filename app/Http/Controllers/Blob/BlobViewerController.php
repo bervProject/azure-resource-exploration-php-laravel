@@ -35,24 +35,11 @@ class BlobViewerController extends Controller
     /**
      * View list of blobs.
      *
-     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function list(Request $request)
+    protected function list()
     {
-        $connectionString = getenv('AZURE_STORAGE_CONNECTION_STRING');
-        $containerName = getenv('AZURE_CONTAINER_BLOB');
-        // Create blob client.
-        $blobClient = BlobRestProxy::createBlobService($connectionString);
-        $result = $blobClient->listBlobs($containerName);
-        $output = array();
-        foreach ($result->getBlobs() as $blob) {
-            array_push($output, [
-                'name' => $blob->getName(),
-                'url' => $blob->getUrl()
-            ]);
-        }
-        return view('blob-list', ['data' => $output]);
+        return view('blob-list');
     }
 
     /**

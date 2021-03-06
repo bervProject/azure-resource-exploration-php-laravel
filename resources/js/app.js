@@ -24,6 +24,7 @@ Vue.use(buefy);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('blob-uploader', require('./components/BlobUploader.vue').default);
+Vue.component('blob-list', require('./components/BlobListView.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
