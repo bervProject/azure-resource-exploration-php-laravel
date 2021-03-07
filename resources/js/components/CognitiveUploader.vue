@@ -14,13 +14,21 @@
             {{ file.name }}
           </span>
         </b-field>
+        <div class="card">
+          <div v-if="file" class="card-image">
+            <figure class="image is-4by3">
+              <img :src="fileImage" />
+            </figure>
+          </div>
+          <div class="card-content">
+            <h3 class="subtitle">Caption</h3>
+            <p>{{ caption }}</p>
+          </div>
+        </div>
         <b-button type="is-success" :loading="uploadLoading" @click="upload"
           >Submit</b-button
         >
       </form>
-      <img v-if="file" :src="fileImage" />
-      <h3 class="subtitle">Caption</h3>
-      <p>{{ caption }}</p>
     </section>
     <section class="section">
       <h2 class="title">Azure Blob List</h2>
@@ -78,7 +86,7 @@ export default {
             console.log(err);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
