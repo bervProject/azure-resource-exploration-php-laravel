@@ -57,7 +57,7 @@ class BlobController extends Controller
         // Create blob client.
         $dateNow = date("Y-m-d-H-i-s");
         $originalName = $blobfile->getClientOriginalName();
-        $output = $this->blobClient->createBlockBlob($this->containerName, "blob/$dateNow-$originalName", file_get_contents($blobfile->getRealPath()));
+        $this->blobClient->createBlockBlob($this->containerName, "blob/$dateNow-$originalName", file_get_contents($blobfile->getRealPath()));
         return ['message' => 'success', 'status' => 200];
     }
 
@@ -72,9 +72,8 @@ class BlobController extends Controller
         $request->validate([
             'cognitive_file' => 'required|file|max:8000|image|mimes:jpeg,bmp,png'
         ]);
-        //
         $blobfile = $request->cognitive_file;
-        $extension = $blobfile->getClientOriginalExtension();
+        // $extension = $blobfile->getClientOriginalExtension();
         $cognitivekey = getenv('AZURE_COGNITIVE_KEY');
         $cognitiveEndpoint = getenv('AZURE_COGNITIVE_ENDPOINT');
         // Create blob client.
@@ -100,9 +99,6 @@ class BlobController extends Controller
         $dateNow = date("Y-m-d-H-i-s");
         $originalName = $blobfile->getClientOriginalName();
         $this->blobClient->createBlockBlob($this->containerName, "cognitive/$dateNow-$originalName", $body, $options);
-        $output = [
-            'captions' => $capturedCaptions
-        ];
-        return $output;
+        return ['captions' => $capturedCaptions];
     }
 }
