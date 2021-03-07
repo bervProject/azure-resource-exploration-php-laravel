@@ -1,10 +1,12 @@
 # Azure Exploration Laravel
 
+[![codecov](https://codecov.io/gh/bervProject/azure-resource-exploration-php-laravel/branch/master/graph/badge.svg?token=X8ILZU68II)](https://codecov.io/gh/bervProject/azure-resource-exploration-php-laravel)
+
 Azure Exploration Laravel
 
 ## Required Env
 
-```
+```env
 AZURE_STORAGE_CONNECTION_STRING=...
 AZURE_CONTAINER_BLOB=...
 ```

@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/blob', 'Api\Blob\BlobController@list');
-
+Route::post('/blob', 'Api\Blob\BlobController@upload');
+Route::post('/cognitive', 'Api\Blob\BlobController@uploadCognitive');

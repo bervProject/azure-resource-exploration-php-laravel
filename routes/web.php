@@ -16,6 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'Blob\BlobViewerController@home')->name('home');
-Route::get('/blob/list', 'Blob\BlobViewerController@list')->name('blob-list');
+Route::get('/blob', 'Blob\BlobViewerController@list')->name('blob-list');
 Route::post('/blob/upload', 'Blob\BlobViewerController@upload')->name('blob-uploader');
 Route::post('/cognitive/upload', 'Blob\BlobViewerController@uploadCognitive')->name('cognitive-uploader');

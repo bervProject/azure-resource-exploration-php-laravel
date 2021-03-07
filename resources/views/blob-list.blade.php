@@ -1,6 +1,6 @@
 @extends('layout.main')
 @section('content')
     <div class="container">
-        <blob-list></blob-list>
+        <blob-uploader></blob-uploader>
     </div>
 @endsection
