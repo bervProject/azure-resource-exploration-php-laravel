@@ -71,13 +71,5 @@
                 fileName.textContent = fileInput.files[0].name;
             }
         }
-
-        const fileInput2 = document.querySelector('#azure-blob-upload input[type=file]');
-        fileInput2.onchange = () => {
-            if (fileInput2.files.length > 0) {
-                const fileName = document.querySelector('#azure-blob-upload .file-name');
-                fileName.textContent = fileInput2.files[0].name;
-            }
-        }
     </script>
 @endsection
