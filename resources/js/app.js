@@ -19,9 +19,6 @@ window.Vue = require('vue');
 let buefy = require('buefy');
 Vue.use(buefy);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
 Vue.component('blob-uploader', require('./components/BlobUploader.vue').default);
 Vue.component('cognitive-uploader', require('./components/CognitiveUploader.vue').default);
 

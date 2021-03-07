@@ -73,7 +73,6 @@ class BlobController extends Controller
             'cognitive_file' => 'required|file|max:8000|image|mimes:jpeg,bmp,png'
         ]);
         $blobfile = $request->cognitive_file;
-        // $extension = $blobfile->getClientOriginalExtension();
         $cognitivekey = getenv('AZURE_COGNITIVE_KEY');
         $cognitiveEndpoint = getenv('AZURE_COGNITIVE_ENDPOINT');
         // Create blob client.
