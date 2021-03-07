@@ -50,7 +50,7 @@ class BlobController extends Controller
     protected function upload(Request $request)
     {
         $request->validate([
-            'blob_file' => 'required|file'
+            'blob_file' => 'required|file|max:8000'
         ]);
         //
         $blobfile = $request->blob_file;
@@ -70,7 +70,7 @@ class BlobController extends Controller
     protected function uploadCognitive(Request $request)
     {
         $request->validate([
-            'cognitive_file' => 'required|file|image|mimes:jpeg,bmp,png'
+            'cognitive_file' => 'required|file|max:8000|image|mimes:jpeg,bmp,png'
         ]);
         //
         $blobfile = $request->cognitive_file;
