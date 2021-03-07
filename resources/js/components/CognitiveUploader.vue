@@ -5,7 +5,7 @@
       <div class="card">
         <div v-if="file" class="card-image">
           <figure class="image is-4by3">
-            <img :src="fileImage" />
+            <img :src="fileImage" alt="image-preview" />
           </figure>
         </div>
         <div class="card-content">
