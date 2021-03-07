@@ -2,33 +2,34 @@
   <div>
     <section class="section">
       <h2 class="title">Azure Cognitive</h2>
-      <form class="form">
-        <b-field class="file">
-          <b-upload accept="image/*" v-model="file">
-            <a class="button is-link">
-              <b-icon pack="fas" icon="upload" size="is-small"></b-icon>
-              <span>Click to upload</span>
-            </a>
-          </b-upload>
-          <span class="file-name" v-if="file">
-            {{ file.name }}
-          </span>
-        </b-field>
-        <div class="card">
-          <div v-if="file" class="card-image">
-            <figure class="image is-4by3">
-              <img :src="fileImage" />
-            </figure>
-          </div>
-          <div class="card-content">
-            <h3 class="subtitle">Caption</h3>
-            <p>{{ caption }}</p>
-          </div>
+      <div class="card">
+        <div v-if="file" class="card-image">
+          <figure class="image is-4by3">
+            <img :src="fileImage" />
+          </figure>
         </div>
-        <b-button type="is-success" :loading="uploadLoading" @click="upload"
-          >Submit</b-button
-        >
-      </form>
+        <div class="card-content">
+          <form class="form">
+            <b-field class="file">
+              <b-upload accept="image/*" v-model="file">
+                <a class="button is-link">
+                  <b-icon pack="fas" icon="upload" size="is-small"></b-icon>
+                  <span>Click to upload</span>
+                </a>
+              </b-upload>
+              <span class="file-name" v-if="file">
+                {{ file.name }}
+              </span>
+            </b-field>
+
+            <b-button type="is-success" :loading="uploadLoading" @click="upload"
+              >Submit</b-button
+            >
+          </form>
+          <h3 class="subtitle">Caption</h3>
+          <p>{{ caption }}</p>
+        </div>
+      </div>
     </section>
     <section class="section">
       <h2 class="title">Azure Blob List</h2>
