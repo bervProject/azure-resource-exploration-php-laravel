@@ -23,6 +23,7 @@ Vue.use(buefy);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('blob-uploader', require('./components/BlobUploader.vue').default);
+Vue.component('cognitive-uploader', require('./components/CognitiveUploader.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
