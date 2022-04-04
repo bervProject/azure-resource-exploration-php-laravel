@@ -6,7 +6,9 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue/dist/vue';
+
+window.Vue = Vue;
 
 /**
  * The following block of code may be used to automatically register your
@@ -16,7 +18,7 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-let buefy = require('buefy');
+import buefy from 'buefy';
 Vue.use(buefy);
 
 Vue.component('blob-uploader', require('./components/BlobUploader.vue').default);
