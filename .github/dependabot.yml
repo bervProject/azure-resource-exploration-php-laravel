@@ -1,11 +1,4 @@
 version: 2
-registries:
-  npm-registry-npm-pkg-github-com:
-    type: npm-registry
-    url: https://npm.pkg.github.com
-    username: "${{secrets.NPM_REGISTRY_NPM_PKG_GITHUB_COM_USERNAME}}"
-    password: "${{secrets.NPM_REGISTRY_NPM_PKG_GITHUB_COM_PASSWORD}}"
-
 updates:
 - package-ecosystem: composer
   directory: "/"
@@ -25,5 +18,3 @@ updates:
   open-pull-requests-limit: 100
   assignees:
   - berviantoleo
-  registries:
-  - npm-registry-npm-pkg-github-com
