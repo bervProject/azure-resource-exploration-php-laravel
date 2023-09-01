@@ -14,7 +14,7 @@
         "axios": "^1.5.0",
         "buefy": "^0.9.23",
         "cross-env": "^7.0.3",
-        "jquery": "^3.7.0",
+        "jquery": "^3.7.1",
         "laravel-mix": "^6.0.49",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
