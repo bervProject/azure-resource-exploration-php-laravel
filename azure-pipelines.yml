@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 variables:
-  phpVersion: 8
+  phpVersion: 8.2
 
 steps:
 - script: |
