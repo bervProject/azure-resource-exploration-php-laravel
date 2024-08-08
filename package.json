@@ -22,7 +22,7 @@
         "postcss": "^8.4.40",
         "resolve-url-loader": "5.0.0",
         "sass": "^1.77.8",
-        "sass-loader": "^14.2.1",
+        "sass-loader": "^16.0.0",
         "vee-validate": "^3.4.15",
         "vue": "^2.7.16",
         "vue-loader": "15.9.8",
