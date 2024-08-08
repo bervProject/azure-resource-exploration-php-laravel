@@ -24,7 +24,7 @@
         "sass": "^1.77.8",
         "sass-loader": "^14.2.1",
         "vee-validate": "^3.4.15",
-        "vue": "^2.7.16",
+        "vue": "^3.4.36",
         "vue-loader": "15.9.8",
         "vue-router": "^3.6.5",
         "vue-template-compiler": "^2.7.16",
