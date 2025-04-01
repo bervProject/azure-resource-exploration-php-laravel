@@ -36,7 +36,7 @@ steps:
     php artisan key:generate
   displayName: 'Setup Laravel'
 
-- script: vendor/bin/phpunit --coverage-clover coverage.xml
+- script: vendor/bin/phpunit
   displayName: 'Run tests with phpunit'
 
 - script: curl -Os https://uploader.codecov.io/latest/linux/codecov && chmod +x codecov && ./codecov
