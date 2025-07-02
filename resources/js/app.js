@@ -6,9 +6,9 @@
 
 require('./bootstrap');
 
-import Vue from 'vue/dist/vue';
+import { createApp } from 'vue';
 
-window.Vue = Vue;
+const app = createApp({});
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,10 +19,13 @@ window.Vue = Vue;
  */
 
 import buefy from 'buefy';
-Vue.use(buefy);
+app.use(buefy);
 
-Vue.component('blob-uploader', require('./components/BlobUploader.vue').default);
-Vue.component('cognitive-uploader', require('./components/CognitiveUploader.vue').default);
+import BlobUploader from './components/BlobUploader.vue';
+import CognitiveUploader from './components/CognitiveUploader.vue';
+
+app.component('blob-uploader', BlobUploader);
+app.component('cognitive-uploader', CognitiveUploader);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,6 +33,4 @@ Vue.component('cognitive-uploader', require('./components/CognitiveUploader.vue'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+app.mount('#app');

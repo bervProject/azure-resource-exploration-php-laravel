@@ -34,14 +34,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-import { Table, Field, Button, Upload, Icon } from "buefy";
-
-Vue.use(Field);
-Vue.use(Upload);
-Vue.use(Icon);
-Vue.use(Button);
-Vue.use(Table);
 
 export default {
   data() {
