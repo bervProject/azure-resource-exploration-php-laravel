@@ -13,7 +13,7 @@
         "@fortawesome/fontawesome-free": "^7.0.0",
         "axios": "^1.11.0",
         "bulma": "^0.9.4",
-        "buefy": "^1.0.1",
+        "buefy": "^3.0.2",
         "cross-env": "^10.0.0",
         "jquery": "^3.7.1",
         "laravel-mix": "^6.0.49",
