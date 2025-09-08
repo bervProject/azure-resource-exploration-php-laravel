@@ -6,7 +6,7 @@
         <b-field class="file">
           <b-upload v-model="file">
             <a class="button is-link">
-              <b-icon pack="fas" icon="upload" size="is-small"></b-icon>
+              <b-icon pack="fas" icon="upload" size="small"></b-icon>
               <span>Click to upload</span>
             </a>
           </b-upload>
@@ -14,12 +14,12 @@
             {{ file.name }}
           </span>
         </b-field>
-        <b-button type="is-success" :loading="uploadLoading" @click="upload">Submit</b-button>
+        <b-button variant="success" :loading="uploadLoading" @click="upload">Submit</b-button>
       </form>
     </section>
     <section class="section">
       <h2 class="title">Azure Blob List</h2>
-      <b-button type="is-primary" @click="loadData">Refresh List</b-button>
+      <b-button variant="primary" @click="loadData">Refresh List</b-button>
       <b-table :loading="loading" :data="data">
         <b-table-column field="name" label="File Name" v-slot="props">
           {{ props.row.name }}
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {

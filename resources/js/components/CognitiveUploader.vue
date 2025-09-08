@@ -13,7 +13,7 @@
             <b-field class="file">
               <b-upload accept="image/*" v-model="file">
                 <a class="button is-link">
-                  <b-icon pack="fas" icon="upload" size="is-small"></b-icon>
+                  <b-icon pack="fas" icon="upload" size="small"></b-icon>
                   <span>Click to upload</span>
                 </a>
               </b-upload>
@@ -22,7 +22,7 @@
               </span>
             </b-field>
 
-            <b-button type="is-success" :loading="uploadLoading" @click="upload"
+            <b-button variant="success" :loading="uploadLoading" @click="upload"
               >Submit</b-button
             >
           </form>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
