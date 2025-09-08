@@ -1,7 +1,7 @@
 /*!
- * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- * Copyright 2024 Fonticons, Inc.
+ * Copyright 2025 Fonticons, Inc.
  */
 
 /*!
@@ -9,12 +9,6 @@
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
  * @license  MIT
- */
-
-/*!
- * Vue.js v2.7.16
- * (c) 2014-2023 Evan You
- * Released under the MIT License.
  */
 
 /*!
@@ -28,7 +22,9 @@
  * Date: 2023-08-28T13:37Z
  */
 
-/*! Axios v1.8.4 Copyright (c) 2025 Matt Zabriskie and contributors */
+/*! Axios v1.11.0 Copyright (c) 2025 Matt Zabriskie and contributors */
+
+/*! Buefy v3.0.2 | MIT License | github.com/buefy/buefy */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
@@ -40,6 +36,24 @@
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
+
+/**
+* @vue/runtime-core v3.5.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/
+
+/**
+* @vue/runtime-dom v3.5.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/
+
+/**
+* @vue/shared v3.5.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.

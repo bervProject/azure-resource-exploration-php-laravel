@@ -18,8 +18,9 @@ const app = createApp({});
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-import buefy from 'buefy';
-app.use(buefy);
+import Buefy from 'buefy';
+
+app.use(Buefy);
 
 import BlobUploader from './components/BlobUploader.vue';
 import CognitiveUploader from './components/CognitiveUploader.vue';
