@@ -9,7 +9,7 @@
         "@vitejs/plugin-vue": "^6.0.1",
         "axios": "^1.11.0",
         "buefy": "^3.0.2",
-        "cross-env": "^10.0.0",
+        "cross-env": "^10.1.0",
         "jquery": "^3.7.1",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^2.0.1",
