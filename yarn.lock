@@ -2156,10 +2156,10 @@ browserslist@^4.0.0, browserslist@^4.21.4, browserslist@^4.24.0, browserslist@^4
     node-releases "^2.0.19"
     update-browserslist-db "^1.1.3"
 
-buefy@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/buefy/-/buefy-3.0.2.tgz"
-  integrity sha512-Zqe287qDOZ/OHRayi0VgAH8GCQiNL5XTl5FGhJ4CpZF6wFhPuxRARZZ4kUIrzxjrSnhdcZgMRmz0XfxkVinm/Q==
+buefy@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/buefy/-/buefy-3.0.3.tgz#376692b4a2313a5cd54615c455183ac6045ff3f0"
+  integrity sha512-//QfIDgbhmpn+mFszD/lEwhlphA+hQavJED2XwjlzqS/bpxYjk/Rnj36X08QVbqiH3lt4a+G357uzsZczc7JTg==
   dependencies:
     bulma "^1.0.4"
 
