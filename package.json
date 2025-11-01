@@ -5,7 +5,7 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^7.0.1",
+        "@fortawesome/fontawesome-free": "^7.1.0",
         "@vitejs/plugin-vue": "^6.0.1",
         "axios": "^1.12.2",
         "buefy": "^3.0.3",
