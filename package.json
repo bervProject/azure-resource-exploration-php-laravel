@@ -7,7 +7,7 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@vitejs/plugin-vue": "^6.0.2",
-        "axios": "^1.13.1",
+        "axios": "^1.13.2",
         "buefy": "^3.0.3",
         "cross-env": "^10.1.0",
         "jquery": "^3.7.1",
