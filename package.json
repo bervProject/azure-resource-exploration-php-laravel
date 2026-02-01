@@ -10,7 +10,7 @@
         "axios": "^1.13.2",
         "buefy": "^3.0.3",
         "cross-env": "^10.1.0",
-        "jquery": "^3.7.1",
+        "jquery": "^4.0.0",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^2.0.1",
         "lodash": "^4.17.23",
