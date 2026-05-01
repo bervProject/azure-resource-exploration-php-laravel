@@ -3928,10 +3928,10 @@ laravel-mix@^6.0.49:
     webpackbar "^5.0.0-3"
     yargs "^17.2.1"
 
-laravel-vite-plugin@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/laravel-vite-plugin/-/laravel-vite-plugin-3.0.0.tgz#1df1ae25499b99aed1437e0869f3445d4d1c5bae"
-  integrity sha512-eO6B/IPH448XNjyA5OmJsFAeJH3MeQGWodNMzejx44+rhV44cs0op05t4yku9ifaRnikDkSHLOLXszJL0tiW3w==
+laravel-vite-plugin@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/laravel-vite-plugin/-/laravel-vite-plugin-3.1.0.tgz#139d7725887dcc699c07553a37c129b64c7a0d91"
+  integrity sha512-Fzocl+X4eQ9jOi0RwdphYRGkUbPJ3ky1pTAST5Ot18cS2gw6d2vldK2eCrlKDVjtibCjCx5qptYDlA0373n7qg==
   dependencies:
     picocolors "^1.0.0"
     tinyglobby "^0.2.12"
