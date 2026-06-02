@@ -25,7 +25,7 @@ steps:
 - script: yarn
   displayName: 'Yarn Install'
 
-- script: yarn prod
+- script: yarn build
   displayName: 'Yarn Publish'
 
 - script: composer install --no-interaction --prefer-dist
